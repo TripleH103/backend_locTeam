@@ -1,0 +1,47 @@
+@url = http://localhost:3020/api/task
+
+@url3 = http://localhost:3020/api/glossary
+
+@url1 = http://localhost:3020/api/task/add/newChild?resources.id=6461a619f5a433efb39d966b
+
+GET {{url}}
+###
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "all_sum": 100,
+  "ceshi_sum": 100,
+  "fanyi_sum": 50,
+  "mc2_ceshi": 80,
+  "mc2_fanyi": 10,
+  "projects": "TripleHTest",
+  "slug": "Test"
+}
+###
+
+GET {{url3}}
+###
+
+POST {{url1}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "resources":[{
+    "children":[{
+      "title": "TripleH的小项目测试看看",
+      "pokemon": ["许铭", "胡慧明"],
+      "office": "iQue",
+      "manhour": 20,
+      "progress": 0.38,
+      "status": "In-Progress"
+    }]
+  }],
+  "events":[{
+    "title":"跟随今日5月29日的NewChild测试看看",
+    "start": "2023-05-12",
+    "end": "2023-05-28"
+  }]
+}
+###
