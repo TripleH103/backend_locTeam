@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
 .route("/")
-.get(authController.protect, authController.restrictTo("admin"), taskController.getAllTasks)
+.get(authController.protect, authController.restrictTo("admin", "user"), taskController.getAllTasks)
 .post(taskController.createTask);
 
 router
