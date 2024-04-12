@@ -41,7 +41,7 @@ class APIFeatures<T extends Document> {
 
   pagination (): this {
       const page = this.queryString.page * 1 || 1;
-      const pageSize = this.queryString.limit * 1 || 100;
+      const pageSize = this.queryString.limit * 1 || 1000;
       const skip = (page - 1) * pageSize;
       this.query = this.query.skip(skip).limit(pageSize)
       return this;

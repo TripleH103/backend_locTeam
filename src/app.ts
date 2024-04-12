@@ -17,6 +17,7 @@ import memoryRoutes from "./routes/routes_memory";
 import userRoutes from "./routes/routes_users";
 import statsRoutes from "./routes/routes_stats";
 import estimateRoutes from "./routes/routes_estimate";
+import debugStatsRoutes from "./routes/routes_debugStats";
 
 const app = express();
 
@@ -63,6 +64,7 @@ app.use("/api/task", taskRoutes);
 app.use("/api/memory", memoryRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/estimate", estimateRoutes);
+app.use("/api/debugStats", debugStatsRoutes);
 
 //Invaild URL Handler
 app.all("*", (req, res, next: NextFunction) => {
