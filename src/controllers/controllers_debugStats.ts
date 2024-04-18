@@ -93,7 +93,38 @@ export const ptwshComprehensiveAverage: RequestHandler = catchAsync(
     }
 
     res.status(200).json({
-      status: "success",
+      status: "Success",
+      data: {
+        average: result[0].average,
+      },
+    });
+  }
+);
+
+export const iQueComprehensiveAverage: RequestHandler = catchAsync(
+  async (req, res, next) => {
+    const result = await DebugStatsModel.aggregate([
+      { $match: { office: "iQue", project_status: false } },
+      {
+        $group: {
+          _id: null,
+          totalRealLabel: { $sum: "$real_label" },
+          totalPeopleNum: { $sum: "$people_num" },
+        },
+      },
+      {
+        $project: {
+          average: { $divide: ["$totalRealLabel", "$totalPeopleNum"] },
+        },
+      },
+    ]);
+
+    if (!result.length) {
+      return next(new AppError("No documents found with that office", 404));
+    }
+
+    res.status(200).json({
+      status: "Success",
       data: {
         average: result[0].average,
       },
