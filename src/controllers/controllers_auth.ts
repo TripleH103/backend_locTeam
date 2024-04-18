@@ -140,7 +140,7 @@ export const forgotPassword: RequestHandler = catchAsync(
     const resetURL = `${req.protocol}://${req.get('host')}/api/user/resetPassword/${resetToken}}`
 
     res.status(200).json({
-      statuse: "Success",
+      status: "Success",
       token: `Your resetToken is: ${resetToken} just use the following URL to Reset your password`,
       url: `${resetURL}`
     })
