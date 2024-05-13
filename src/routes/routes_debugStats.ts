@@ -6,6 +6,7 @@ router.get("/project", debugStatsController.getUniqueProject);
 router.get("/", debugStatsController.getDebugStats);
 router.get("/ptwshAverage", debugStatsController.ptwshComprehensiveAverage);
 router.get("/iQueAverage", debugStatsController.iQueComprehensiveAverage);
+router.get("/dhsAverage", debugStatsController.dhsComprehensiveAverage);
 router.get("/currentProjectAverage", debugStatsController.currentProjectAverage)
 
 export default router;
