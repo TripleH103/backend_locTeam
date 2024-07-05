@@ -48,7 +48,7 @@ export const currentProjectAverage: RequestHandler = catchAsync(
           _id: null,
           totalRealLabel: { $sum: "$real_label" },
           totalPeopleNum: { $sum: "$people_num" },
-          office: { $first: "$office"}
+          office: { $first: "$office" },
         },
       },
       {
@@ -162,6 +162,64 @@ export const dhsComprehensiveAverage: RequestHandler = catchAsync(
       data: {
         average: result[0].average,
       },
+    });
+  }
+);
+
+export const getUniqueGenres: RequestHandler = catchAsync(
+  async (req, res, next) => {
+    const uniqueGenres = await DebugStatsModel.distinct("genres");
+    if (uniqueGenres.length === 0) {
+      next(new AppError("There is no genres int the database", 404));
+    }
+    res.status(200).json({
+      status: "Success",
+      number: uniqueGenres.length,
+      uniqueGenres,
+    });
+  }
+);
+
+export const genresAverage: RequestHandler = catchAsync(
+  async (req, res, next) => {
+    const result = await DebugStatsModel.aggregate([
+      { $match: { project_status: false } },
+      {
+        $group: {
+          _id: { office: "$office", genres: "$genres" },
+          totalRealLabel: { $sum: "$real_label" },
+          totalPeopleNum: { $sum: "$people_num" },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.genres",
+          offices: {
+            $push: {
+              office: "$_id.office",
+              average: { $divide: ["$totalRealLabel", "$totalPeopleNum"] },
+            },
+          },
+          totalRealLabel: { $sum: "$totalRealLabel" },
+          totalPeopleNum: { $sum: "$totalPeopleNum" },
+        },
+      },
+      {
+        $project: {
+          genres: "$_id",
+          offices: 1,
+          general_average: { $divide: ["$totalRealLabel", "$totalPeopleNum"] },
+          _id: 0,
+        },
+      },
+    ]);
+
+    if (!result.length) {
+      return next(new AppError("No documents found", 404));
+    }
+    res.status(200).json({
+      status: "Success",
+      result: result,
     });
   }
 );

@@ -7,6 +7,9 @@ const debugStatsSchema = new Schema({
     office: {
         type: String,
     },
+    genres: {
+        type: String,
+    },
     date: {
         type: Date,
     },
@@ -27,7 +30,8 @@ const debugStatsSchema = new Schema({
     },
     project_status: {
         type: Boolean,
-    }
+    },
+
 });
 
 type DebugStats = InferSchemaType<typeof debugStatsSchema>;
