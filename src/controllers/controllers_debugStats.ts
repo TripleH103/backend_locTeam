@@ -40,9 +40,9 @@ export const getUniqueProject: RequestHandler = catchAsync(
 
 export const currentProjectAverage: RequestHandler = catchAsync(
   async (req, res, next) => {
-    const currentProjectAverage = req.query.project;
+    const selectedProject = req.query.project;
     const result = await DebugStatsModel.aggregate([
-      { $match: { project: currentProjectAverage, project_status: false } },
+      { $match: { project: selectedProject, project_status: false } },
       {
         $group: {
           _id: null,
